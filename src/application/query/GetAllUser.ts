@@ -8,7 +8,6 @@ export class GetAllUser {
     }
 
     async query(){
-        console.log('called')
         const userData = await this.userDataRepository.getAll();
         return userData.map(({password, ...rest}:UserData) => rest)
     }

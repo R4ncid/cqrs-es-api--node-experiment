@@ -13,7 +13,6 @@ export class InMemoryEventStore implements EventStore{
     }
 
     register(event: DomainEvent): Promise<DomainEvent> {
-        console.log(`register event ${event.type}`);
         return new Promise(resolve => {
             this.store.push(event);
             this.emitter.emit(event);

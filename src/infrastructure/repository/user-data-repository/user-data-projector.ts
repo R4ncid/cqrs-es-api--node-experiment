@@ -16,16 +16,15 @@ export class UserDataProjector extends AbstractProjector{
 
 
      project(event: DomainEvent): Promise<void> {
-        console.log(`projecting ${event.type}`)
        return new Promise<void>(async (resolve, reject) => {
 
                 if(event instanceof UserCreated) {
                     const {userId, username, password} = event.payload
-                    await this.userRepository.add(new UserData(userId, username, password, 0, event.occurredAt, new Date()))
+                    await this.userRepository.add(new UserData(userId, username, password, 0, event.occurredAt, new Date(), event.occurredAt))
                 }else if(event instanceof UserLoggedIn){
                     const {userId} = event.payload
                     const {username, loginCount, password, registerAt} = await this.userRepository.findById(userId)
-                    const updateUserData = new UserData(userId, username, password,loginCount + 1, registerAt, new Date())
+                    const updateUserData = new UserData(userId, username, password,loginCount + 1, registerAt, new Date(), event.occurredAt)
                     await this.userRepository.update(updateUserData);
                 }
 

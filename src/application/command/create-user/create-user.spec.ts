@@ -41,15 +41,19 @@ describe('Create User Api', () => {
 
         try {
             await handler.handle(command);
-            process.nextTick(async () => {
-                try{
-                    const user = await userRepository.findByUsername(username)
-                    expect(user.username).toBe(username)
-                }catch (e) {
-                    expect(false).toBe(true)
-                }
+            await new Promise((resolve, reject) => {
+                process.nextTick(async () => {
+                    try {
+                        const user = await userRepository.findByUsername(username)
+                        expect(user.username).toBe(username)
+                        resolve(user)
+                    } catch (e) {
+                        expect(false).toBe(true)
+                        reject(e);
+                    }
 
-            })
+                })
+            });
         } catch (e) {
             console.error(e);
             expect(false).toBe(true)
@@ -63,14 +67,20 @@ describe('Create User Api', () => {
 
         try {
             await handler.handle(command);
-            process.nextTick(async () => {
-                try{
-                    await handler.handle(command);
-                    expect(false).toBe(true)
-                }catch (e) {
-                    expect(e.type).toBe(UserAlreadyExists.TYPE)
-                }
+            await new Promise((resolve, reject) => {
+                process.nextTick(async () => {
+                    try {
+                        await handler.handle(command);
+                        expect(false).toBe(true)
+                        reject()
+                    } catch (e) {
+
+                        expect(e.type).toBe(UserAlreadyExists.TYPE)
+                        resolve()
+                    }
+                })
             });
+
 
         } catch (e) {
 

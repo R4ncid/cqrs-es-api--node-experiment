@@ -18,7 +18,6 @@ export class CreateUserHandler implements HandlerInterface {
 
     async handle(command: CreateUserCommandInterface) {
         const {username, password} = command;
-        console.log(`creating user ${username}`)
         try{
             const existingUser = await this.repo.findByUsername(username);
             throw new UserAlreadyExists(username);

@@ -5,6 +5,7 @@ export class UserData {
     readonly loginCount: number;
     readonly registerAt: Date;
     readonly lastLogin: Date;
+    readonly updatedAt: Date;
 
     constructor(
         userId: string,
@@ -12,7 +13,8 @@ export class UserData {
         password:string,
         loginCount:number,
         registerAt: Date,
-        lastLogin: Date
+        lastLogin: Date,
+        updatedAt: Date
         ){
         this.userId = userId;
         this.username = username;
@@ -20,6 +22,7 @@ export class UserData {
         this.loginCount = loginCount;
         this.registerAt = registerAt;
         this.lastLogin = lastLogin;
+        this.updatedAt = updatedAt;
 
     }
 }

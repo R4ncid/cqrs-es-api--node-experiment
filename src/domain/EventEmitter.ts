@@ -14,9 +14,6 @@ export class Emitter {
     }
 
     emit(event: DomainEvent): void {
-
-        eventEmitter.emit(event.type, event);
-
         eventEmitter.once(event.type, event =>
             this.projectors.forEach(async (projector: Projector) => {
                 try {
@@ -26,7 +23,8 @@ export class Emitter {
                     console.error(`projector ${projectorName} failed to update ${event.type}`)
                 }
             })
-        )
+        );
+        eventEmitter.emit(event.type, event);
     }
 
     register(projector: Projector) {

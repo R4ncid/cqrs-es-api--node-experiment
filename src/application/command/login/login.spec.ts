@@ -73,10 +73,12 @@ describe('Login API', () => {
         try{
             for(let i = 0; i < numberOfLogin; i++)
                 await handler.handle(command);
-            console.log(numberOfLogin)
-            const userData = await userDataRepository.findById('1');
+            process.nextTick(async () => {
+                const userData = await userDataRepository.findById('1');
 
-            expect(userData.loginCount).toBe(numberOfLogin);
+                expect(userData.loginCount).toBe(numberOfLogin);
+            })
+
         }catch (e) {
             expect(e.type).toBe(InvalidUserCredentials.TYPE)
         }
